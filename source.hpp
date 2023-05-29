@@ -10,7 +10,11 @@ namespace fs = std::filesystem;
 namespace unspag {
     class Configuration {
         fs::path path;
-
+        auto EvalAndImplode(ostream &out) -> int {
+            int result = this->Eval(out);
+            delete this;
+            return result;
+        }
         auto RunCommand(string command, ostream &out) -> int {
             while(command[0] == '\n') command.erase(0, 1);
             if(command[0] == '%') return 0;
@@ -23,7 +27,7 @@ namespace unspag {
             } else if(commandName == "use") {
                 fs::path newPath = path;
                 newPath.replace_filename(param);
-                return Configuration(newPath).Eval(out);
+                return (new Configuration(newPath))->EvalAndImplode(out);
             }
             return 0;
         }
