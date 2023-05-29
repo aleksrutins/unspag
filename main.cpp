@@ -34,7 +34,7 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-auto PrintUsage(string program, fs::path configPath) {
+auto PrintUsage(string program, fs::path configPath) -> int {
     cerr << "Usage: " << program << " <command> [args...]\n"
          << "Commands:\n"
          << "  init\tInitialize your configuration at " << configPath << endl
@@ -42,9 +42,7 @@ auto PrintUsage(string program, fs::path configPath) {
     return 1;
 }
 
-int main(int    argc,
-         char **argv)
-{
+auto main(int argc, char **argv) -> int {
     fs::path configPath = getenv("HOME");
     configPath += "/.config/unspag/config";
 

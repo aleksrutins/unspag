@@ -18,6 +18,7 @@ namespace unspag {
         auto RunCommand(string command, ostream &out) -> int {
             while(command[0] == '\n') command.erase(0, 1);
             if(command[0] == '%') return 0;
+            if(command.length() == 0) return 0;
             auto firstSpace = command.find_first_of(' ');
             auto commandName = command.substr(0, firstSpace);
             auto param = command.substr(firstSpace + 1);
@@ -28,6 +29,11 @@ namespace unspag {
                 fs::path newPath = path;
                 newPath.replace_filename(param);
                 return (new Configuration(newPath))->EvalAndImplode(out);
+            } else if(commandName == "eval") {
+                return system(param.c_str());
+            } else {
+                cerr << "Unknown instruction: " << commandName << endl;
+                return 1;
             }
             return 0;
         }
