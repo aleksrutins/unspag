@@ -19,6 +19,7 @@ namespace unspag {
             while(command[0] == '\n') command.erase(0, 1);
             if(command[0] == '%') return 0;
             if(command.length() == 0) return 0;
+            
             auto firstSpace = command.find_first_of(' ');
             auto commandName = command.substr(0, firstSpace);
             auto param = command.substr(firstSpace + 1);
