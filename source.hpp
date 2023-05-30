@@ -32,6 +32,17 @@ namespace unspag {
                 return (new Configuration(newPath))->EvalAndImplode(out);
             } else if(commandName == "eval") {
                 return system(param.c_str());
+            } else if(commandName == "source") {
+                if(!fs::exists(param)) {
+                    cerr << "source: file does not exist: " << param << endl;
+                    return 1;
+                }
+                ifstream stream(param);
+                string line;
+                do {
+                    getline(stream, line);
+                    out << line << endl;
+                } while(!stream.eof());
             } else {
                 cerr << "Unknown instruction: " << commandName << endl;
                 return 1;
